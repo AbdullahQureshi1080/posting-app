@@ -1,6 +1,7 @@
 // Native Imports
 import "react-native-gesture-handler";
 import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   ImageBackground,
   StyleSheet,
@@ -8,6 +9,8 @@ import {
   Text,
   Dimensions,
   ScrollView,
+  ActivityIndicator,
+  Alert,
 } from "react-native";
 import { Button } from "react-native-paper";
 
@@ -26,9 +29,16 @@ import ComponentsStyle from "../styles/ComponentsStyle";
 import * as Yup from "yup";
 
 // // Api Imports
-// import authAPI from "../../api/auth";
-// import useAuth from "../../auth/useAuth";
+import authAPI from "../api/auth";
+import useAuth from "../auth/useAuth";
 // import useApi from "../../hooks/useApi";
+
+import {
+  getAuthToken,
+  userAuthentication,
+  userCheck,
+} from "../store/authSlice";
+// import { apiCallSuccess } from "../store/api";
 
 var { width, height } = Dimensions.get("window");
 
@@ -38,15 +48,85 @@ const validationSchema = Yup.object().shape({
 });
 
 const LoginScreen = ({ navigation }) => {
-  //   const auth = useAuth();
-  //   const loginApi = useApi(authAPI.login);
+  const dispatch = useDispatch();
+  const state = useSelector((state) => state);
+  // useEffect(() => {
+  //   const token = getAuthToken();
+  // }, []);
+  // const authToken = getAuthToken();
+  // for Setting user Feedback
+  const [isLoading, setIsLoading] = useState(false);
   const [loginFailed, setLoginFailed] = useState(false);
+  const [error, setError] = useState();
+  // Call to actions to Redux Store
+  // console.log(state.entities.auth.token);
+
+  const { logIn } = useAuth();
+  //   const loginApi = useApi(authAPI.login);
   //   const handleSubmit = async ({ email, password }) => {
   //     const result = await loginApi.request(email, password);
   //     if (!result.ok) return setLoginFailed(true);
   //     setLoginFailed(false);
   //     auth.logIn(result.data);
   //   };
+  const handleSubmit = async ({ email, password }) => {
+    const user = {
+      email: email,
+      password: password,
+    };
+    console.log(user);
+    setIsLoading(true);
+    const result = await authAPI.login(email, password);
+    if (!result.ok) {
+      setError(result.data);
+      setIsLoading(false);
+      return setLoginFailed(true);
+    }
+    setLoginFailed(false);
+    // setIsLoading(false);
+    // console.log(result.data);
+    dispatch(userCheck(result.data));
+    logIn(result.data);
+    // dispatch(userAuthentication(user));
+    // const token = state.entities.auth.token;
+    // console.log(token);
+    navigation.navigate("Home");
+    setIsLoading(false);
+    // setIsLoading(true);
+  };
+  // setError(null);
+  // try {
+  // dispatch(userAuthentication(user));
+  // // const authToken = getAuthToken();
+  // // dispatch(userAuthentication(user));
+  // if (authToken != null) {
+  //   // const token = state.entities.auth.token;
+  //   console.log(authToken);
+  // } else {
+  //   console.log("Error: Store not updated as of yet");
+  // }
+  // console.log(useSelector((state)=>state))
+  // if (result.type === apiCallSuccess.type) {
+  //   console.log(state.entities.auth.token);
+  // }
+  // if (result) {
+  // console.log(result);
+  // const token = state.entities.auth.token;
+  // console.log(token);
+  // const tokenToStore = JSON.stringify(result.data);
+  // logIn(token);
+  // navigation.navigate("Home");
+  // } else {
+  // console.log("Result got from API via redux store is null");
+  // }
+  // } catch (err) {
+  // setLoginFailed(true);
+  // setError(err);
+  // setLoginFailed(false);
+  // setIsLoading(false);
+  // }
+  // if (!result.ok) return setLoginFailed(true);
+  // console.log(result);
   return (
     <View style={styles.container}>
       {/* <ActivityIndicator visible={true} /> */}
@@ -60,7 +140,7 @@ const LoginScreen = ({ navigation }) => {
           </View>
           <AppForm
             initialValues={{ email: "", password: "" }}
-            onSubmit={() => console.log("it works")}
+            onSubmit={handleSubmit}
             validationSchema={validationSchema}
           >
             <View style={{ alignSelf: "center" }}>
@@ -90,7 +170,11 @@ const LoginScreen = ({ navigation }) => {
               />
             </View>
             <View style={{ alignSelf: "center" }}>
-              <SubmitButton name="Sign in" />
+              {isLoading ? (
+                <ActivityIndicator size="small" color="crimson" />
+              ) : (
+                <SubmitButton name="Sign in" />
+              )}
               <Button
                 style={{ backgroundColor: "#DB4437", marginVertical: 5 }}
                 color="#F4F4F2"
@@ -143,7 +227,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   titleText: {
-    fontFamily: "Poppins-Bold",
+    // fontFamily: "Poppins-Bold",
     color: "#E8E8E8",
     fontSize: 30,
     marginVertical: 10,
@@ -151,7 +235,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   text: {
-    fontFamily: "Poppins-Medium",
+    // fontFamily: "Poppins-Medium",
     color: "#E8E8E8",
     fontSize: 20,
     opacity: 0.8,
