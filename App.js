@@ -5,8 +5,9 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import LoginScreen from "./app/screens/LoginScreen";
 import HomeScreen from "./app/screens/HomeScreen";
+import PostEditScreen from "./app/screens/PostEditScreen";
 import configureStore from "./app/store/configureStore";
-import authStorage from "./app/auth/authStorage";
+// import authStorage from "./app/auth/authStorage";
 import StartScreen from "./app/screens/StartScreen";
 // import { store } from "./app/store/store";
 const store = configureStore();
@@ -35,6 +36,7 @@ export default function App() {
           <stack.Screen name="StartScreen" component={StartScreen} />
           <stack.Screen name="Login" component={LoginScreen} />
           <stack.Screen name="Home" component={HomeScreen} />
+          <stack.Screen name="CreatePost" component={PostEditScreen} />
         </stack.Navigator>
       </NavigationContainer>
     </Provider>

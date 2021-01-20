@@ -4,7 +4,7 @@ import { ActivityIndicator } from "react-native-paper";
 import { useDispatch } from "react-redux";
 import authStorage from "../auth/authStorage";
 // import useAuth from "../auth/useAuth";
-import { userCheck } from "../store/authSlice";
+import { userVerify, assignUserData } from "../store/authSlice";
 
 export default function StartScreen(props) {
   //   const auth = useAuth();
@@ -12,15 +12,14 @@ export default function StartScreen(props) {
   useEffect(() => {
     const tryLogin = async () => {
       const userToken = await authStorage.getToken();
-      //   console.log(userToken);
+      const userData = await authStorage.getUser();
       if (!userToken) {
         props.navigation.navigate("Login");
         return;
       }
-      dispatch(userCheck(userToken));
-      // dipatch(user)
+      dispatch(userVerify(userToken));
+      dispatch(assignUserData(userData));
       props.navigation.navigate("Home");
-      // dispatch(tryAuthenticate(userToken));
     };
     tryLogin();
     // add dispatch to dependency

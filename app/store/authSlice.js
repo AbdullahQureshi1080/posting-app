@@ -1,9 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { apiCallBegan, LOGIN_URL, REGISTER_URL } from "./api";
+import authAPI from "../api/auth";
+import auth from "../api/auth";
 // import moment from "moment";
 // Combing the two functions createAction and createReducer into one
 // let lastId = 0;
+
 const authSlice = createSlice({
   name: "auth",
   initialState: {
@@ -75,7 +78,8 @@ export const userAuthentication = (user) =>
     onSuccess: authenticatedUser.type,
     onError: loginRequestFailed.type,
   });
-export const userCheck = (user) => ({
+
+export const userVerify = (user) => ({
   type: authenticatedUser.type,
   payload: user,
 });
@@ -84,14 +88,7 @@ export const assignUserData = (user) => ({
   type: userRegistration.type,
   payload: user,
 });
-// export const tryAuthenticate = (token) => {
-//   return {
-//     type: authenticate.type,
-//     payload: {
-//       token,
-//     },
-//   };
-// };
+
 export const registerUser = (userData) =>
   apiCallBegan({
     url: REGISTER_URL,
@@ -101,11 +98,3 @@ export const registerUser = (userData) =>
     onSuccess: userRegistration.type,
     onError: registerRequestFailed.type,
   });
-
-// Selectors - to get the current store state
-
-// export const getAuthToken = () => {
-//   const state = useSelector((state) => state);
-//   const token = state.entities.auth.token;
-//   return token;
-// };

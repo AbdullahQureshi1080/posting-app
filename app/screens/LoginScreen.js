@@ -36,7 +36,7 @@ import useAuth from "../auth/useAuth";
 import {
   getAuthToken,
   userAuthentication,
-  userCheck,
+  userVerify,
 } from "../store/authSlice";
 // import { apiCallSuccess } from "../store/api";
 
@@ -50,14 +50,17 @@ const validationSchema = Yup.object().shape({
 const LoginScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
+  // const checking = getAuthToken();
+  // console.log(checking);
   // useEffect(() => {
-  //   const token = getAuthToken();
+  //  getAuthToken();
   // }, []);
   // const authToken = getAuthToken();
   // for Setting user Feedback
   const [isLoading, setIsLoading] = useState(false);
   const [loginFailed, setLoginFailed] = useState(false);
   const [error, setError] = useState();
+
   // Call to actions to Redux Store
   // console.log(state.entities.auth.token);
 
@@ -77,56 +80,22 @@ const LoginScreen = ({ navigation }) => {
     console.log(user);
     setIsLoading(true);
     const result = await authAPI.login(email, password);
+    // dispatch(userAuthentication(user));
+    // const checking = await state.entities.auth.token;
+    // console.log(checking);
     if (!result.ok) {
       setError(result.data);
       setIsLoading(false);
       return setLoginFailed(true);
     }
     setLoginFailed(false);
-    // setIsLoading(false);
-    // console.log(result.data);
-    dispatch(userCheck(result.data));
-    logIn(result.data);
-    // dispatch(userAuthentication(user));
-    // const token = state.entities.auth.token;
-    // console.log(token);
-    navigation.navigate("Home");
     setIsLoading(false);
-    // setIsLoading(true);
+    // console.log(result.data);
+    dispatch(userVerify(result.data));
+    logIn(result.data);
+    navigation.navigate("Home");
   };
-  // setError(null);
-  // try {
-  // dispatch(userAuthentication(user));
-  // // const authToken = getAuthToken();
-  // // dispatch(userAuthentication(user));
-  // if (authToken != null) {
-  //   // const token = state.entities.auth.token;
-  //   console.log(authToken);
-  // } else {
-  //   console.log("Error: Store not updated as of yet");
-  // }
-  // console.log(useSelector((state)=>state))
-  // if (result.type === apiCallSuccess.type) {
-  //   console.log(state.entities.auth.token);
-  // }
-  // if (result) {
-  // console.log(result);
-  // const token = state.entities.auth.token;
-  // console.log(token);
-  // const tokenToStore = JSON.stringify(result.data);
-  // logIn(token);
-  // navigation.navigate("Home");
-  // } else {
-  // console.log("Result got from API via redux store is null");
-  // }
-  // } catch (err) {
-  // setLoginFailed(true);
-  // setError(err);
-  // setLoginFailed(false);
-  // setIsLoading(false);
-  // }
-  // if (!result.ok) return setLoginFailed(true);
-  // console.log(result);
+
   return (
     <View style={styles.container}>
       {/* <ActivityIndicator visible={true} /> */}
