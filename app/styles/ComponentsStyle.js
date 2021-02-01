@@ -160,7 +160,7 @@ const ComponentsStyle = {
         },
         inputStyleSign:{
             marginVertical : 15,
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            // backgroundColor: 'rgba(0, 0, 0, 0.5)',
             opacity: 0.6,
             color:"#f4f4f2",
             fontFamily: 'Poppins-Regular',

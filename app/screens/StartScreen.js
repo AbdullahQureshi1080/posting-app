@@ -5,7 +5,8 @@ import { useDispatch } from "react-redux";
 import authStorage from "../auth/authStorage";
 // import useAuth from "../auth/useAuth";
 import { userVerify, assignUserData } from "../store/authSlice";
-
+import { getProfileData, setProfileData } from "../store/userSlice";
+import userAPI from "../api/user";
 export default function StartScreen(props) {
   //   const auth = useAuth();
   const dispatch = useDispatch();
@@ -17,8 +18,17 @@ export default function StartScreen(props) {
         props.navigation.navigate("Login");
         return;
       }
+      // console.log(userData);
+      const email = userData.email;
+      console.log(email);
+      const profileData = await userAPI.userProfile(email);
       dispatch(userVerify(userToken));
       dispatch(assignUserData(userData));
+      if (!profileData) {
+        console.log("User token does not exist, so no profile data");
+      } else {
+        dispatch(setProfileData(profileData));
+      }
       props.navigation.navigate("Home");
     };
     tryLogin();

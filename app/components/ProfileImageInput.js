@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -11,7 +11,10 @@ import { MaterialCommunityIcons } from "react-native-vector-icons";
 import * as ImagePicker from "expo-image-picker";
 // import { launchImageLibrary } from "react-native-image-picker";
 
-const ImageInput = ({ imageUri, onChangeImage }) => {
+const ProfileImageInput = () => {
+  const [imageUri, onChangeImage] = useState(null);
+  console.log(imageUri);
+  //   const [changeImage, onChangeImage] = useState("");
   useEffect(() => {
     requestPermission();
   }, []);
@@ -20,15 +23,6 @@ const ImageInput = ({ imageUri, onChangeImage }) => {
     if (!granted) alert("You need to enable permission to access");
   };
 
-  // const selectImageRN = () => {
-  //   let options = {
-  //     mediaType: "photo",
-  //     quality: 0.5,
-  //   };
-  //   launchImageLibrary(options, (response) => {
-  //     if (!response.didCancel) onChangeImage(response.uri);
-  //   });
-  // };
   const selectImage = async () => {
     try {
       const result = await ImagePicker.launchImageLibraryAsync({
@@ -43,7 +37,7 @@ const ImageInput = ({ imageUri, onChangeImage }) => {
   const handlePress = () => {
     if (!imageUri) selectImage();
     else
-      Alert.alert("Delete", "Are you sure you wnat to delete the image?", [
+      Alert.alert("Delete", "Are you sure you want to delete the image?", [
         {
           text: "Yes",
           onPress: () => onChangeImage(null),
@@ -51,20 +45,23 @@ const ImageInput = ({ imageUri, onChangeImage }) => {
         { text: "No" },
       ]);
   };
+
   return (
     <TouchableWithoutFeedback onPress={handlePress}>
-      <View style={styles.container}>
+      <View style={styles.mainContainer}>
         {!imageUri && (
           <MaterialCommunityIcons color="white" name="camera" size={40} />
         )}
-        {imageUri && <Image source={{ uri: imageUri }} style={styles.image} />}
+        {imageUri && (
+          <Image source={{ uri: imageUri }} style={styles.profileImage} />
+        )}
       </View>
     </TouchableWithoutFeedback>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  mainContainer: {
     backgroundColor: "grey",
     borderRadius: 15,
     alignItems: "center",
@@ -73,10 +70,10 @@ const styles = StyleSheet.create({
     width: 100,
     overflow: "hidden",
   },
-  image: {
+  profileImage: {
     height: "100%",
     width: "100%",
   },
 });
 
-export default ImageInput;
+export default ProfileImageInput;

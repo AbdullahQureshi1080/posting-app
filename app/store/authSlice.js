@@ -46,7 +46,8 @@ const authSlice = createSlice({
       auth.loading = false;
     },
     logout: (auth, action) => {
-      auth.token = null;
+      auth.token = action.payload;
+      auth.data = action.payload;
     },
   },
 });
@@ -69,15 +70,15 @@ export default authSlice.reducer;
 
 // ()=>{} signature function
 
-export const userAuthentication = (user) =>
-  apiCallBegan({
-    url: LOGIN_URL,
-    method: "post",
-    data: user,
-    onStart: loginRequest.type,
-    onSuccess: authenticatedUser.type,
-    onError: loginRequestFailed.type,
-  });
+// export const userAuthentication = (user) =>
+//   apiCallBegan({
+//     url: LOGIN_URL,
+//     method: "post",
+//     data: user,
+//     onStart: loginRequest.type,
+//     onSuccess: authenticatedUser.type,
+//     onError: loginRequestFailed.type,
+//   });
 
 export const userVerify = (user) => ({
   type: authenticatedUser.type,
@@ -89,12 +90,17 @@ export const assignUserData = (user) => ({
   payload: user,
 });
 
-export const registerUser = (userData) =>
-  apiCallBegan({
-    url: REGISTER_URL,
-    method: "post",
-    data: userData,
-    onStart: registerRequest.type,
-    onSuccess: userRegistration.type,
-    onError: registerRequestFailed.type,
-  });
+export const loggingOut = () => ({
+  type: logout.type,
+  payload: null,
+});
+
+// export const registerUser = (userData) =>
+//   apiCallBegan({
+//     url: REGISTER_URL,
+//     method: "post",
+//     data: userData,
+//     onStart: registerRequest.type,
+//     onSuccess: userRegistration.type,
+//     onError: registerRequestFailed.type,
+//   });

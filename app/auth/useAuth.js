@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 // import AuthContext from "./context";
 import authStorage from "./authStorage";
 import jwtDecode from "jwt-decode";
-import { assignUserData } from "../store/authSlice";
+import { assignUserData, loggingOut } from "../store/authSlice";
 export default useAuth = (navigation) => {
   //   const {user,setUser} = useContext(AuthContext);
   const dispatch = useDispatch();
@@ -26,6 +26,7 @@ export default useAuth = (navigation) => {
   const logOut = () => {
     // setUser(null);
     authStorage.removeToken();
+    dispatch(loggingOut());
     navigation.navigate("Login");
     // console.log("token Removed");
   };
