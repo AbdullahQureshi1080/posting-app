@@ -1,7 +1,17 @@
-export const API_KEY = "AIzaSyBZzjVGefvUcf9GpzbYNUmxDcukFUE--Sw";
-export const AUTH_DOMAIN = "instagram-clone-c077a.firebaseapp.com";
-export const PROJECT_ID = "instagram-clone-c077a";
-export const STORAGE_BUCKET = "instagram-clone-c077a.appspot.com";
-export const MEASUREMENT_ID = "1065436165476";
-export const MESSAGING_SENDER_ID = "1:1065436165476:web:32d20244d4a8c831e5b671";
-export const APP_ID = "G-CDF6GJG7SV";
+export const API_KEY = "AIzaSyBIdSeoW1qagA5QesZhSysOzImgjfDzxjI";
+export const AUTH_DOMAIN = "renovateit.firebaseapp.com";
+export const PROJECT_ID = "renovateit";
+export const STORAGE_BUCKET = "renovateit.appspot.com";
+export const MEASUREMENT_ID = "262618790839";
+export const MESSAGING_SENDER_ID = "1:262618790839:web:db14708fdaab0e87f38632";
+export const APP_ID = "G-M3TVQV0J5L";
+
+// const firebaseConfig = {
+//   apiKey: "AIzaSyBIdSeoW1qagA5QesZhSysOzImgjfDzxjI",
+//   authDomain: "renovateit.firebaseapp.com",
+//   projectId: "renovateit",
+//   storageBucket: "renovateit.appspot.com",
+//   messagingSenderId: "262618790839",
+//   appId: "1:262618790839:web:db14708fdaab0e87f38632",
+//   measurementId: "G-M3TVQV0J5L",
+// };

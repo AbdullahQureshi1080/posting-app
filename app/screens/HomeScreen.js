@@ -13,6 +13,7 @@ export default function HomeScreen({ navigation }) {
   // () => getProfileData(data.email);
   const { logOut } = useAuth(navigation);
   const state = useSelector((state) => state);
+  console.log(state);
   const profile = state.entities.user.profile;
   const token = state.entities.auth.token;
   const data = state.entities.auth.data;
@@ -59,7 +60,7 @@ export default function HomeScreen({ navigation }) {
         onAddImage={handleAddImage}
         onRemoveImage={handleRemoveImage}
       /> */}
-      {profile != null && {} ? (
+      {"about" in profile ? (
         <View>
           <Text>{profile.firstname}</Text>
           <Text>{profile.lastname}</Text>
@@ -76,10 +77,10 @@ export default function HomeScreen({ navigation }) {
           />
         </View>
       )}
-      <Button
+      {/* <Button
         title="Update Profile"
         onPress={() => navigation.navigate("UserProfile")}
-      />
+      /> */}
       <View
         style={{
           alignSelf: "center",

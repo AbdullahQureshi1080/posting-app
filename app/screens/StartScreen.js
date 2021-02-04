@@ -33,7 +33,7 @@ export default function StartScreen(props) {
     };
     tryLogin();
     // add dispatch to dependency
-  }, []);
+  }, [dispatch]);
   return (
     <View>
       <ActivityIndicator size="small" />

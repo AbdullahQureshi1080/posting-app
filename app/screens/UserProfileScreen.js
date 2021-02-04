@@ -153,37 +153,38 @@ const UserProfileScreen = ({ navigation, route }) => {
     image,
   }) => {
     image = downloadURL;
-    const result = {
+    // const result = {
+    //   firstname,
+    //   lastname,
+    //   about,
+    //   location,
+    //   jobtitle,
+    //   image,
+    // };
+    // console.log(result);
+    // setIsLoading(true);
+    const result = await userAPI.updateProfile(
+      userEmail,
       firstname,
       lastname,
       about,
       location,
       jobtitle,
-      image,
-    };
-    console.log(result);
-    setIsLoading(true);
-    // const result = await userAPI.updateProfile(
-    //   userEmail,
-    //   firstname,
-    //   lastname,
-    //   about,
-    //   location,
-    //   jobtitle
-    // );
+      image
+    );
 
-    // if (!result.ok) {
-    //   // console.log(result.data);
-    //   setError(result.data);
-    //   setIsLoading(false);
-    //   return setSaveData(true);
-    // }
-    // setSaveData(false);
-    // setIsLoading(false);
-    // // console.log(result.data);
-    // dispatch(setProfileData(result.data));
-    // // logIn(result.data);
-    // navigation.navigate("Home");
+    if (!result.ok) {
+      // console.log(result.data);
+      setError(result.data);
+      setIsLoading(false);
+      return setSaveData(true);
+    }
+    setSaveData(false);
+    setIsLoading(false);
+    // console.log(result.data);
+    dispatch(setProfileData(result.data));
+    // logIn(result.data);
+    navigation.navigate("Home");
   };
 
   return (
